@@ -1,0 +1,9 @@
+{
+  "firebase": "16trainsched",
+  "public": "public",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}
