@@ -38,3 +38,28 @@ $("#addTrain").on("click", function(){
 	// Prevents user moving to new page
 	return false;
 });
+
+trainSched.on("child_added", function(childSnapshot, prevChildKey){
+
+	console.log(childSnapshot.val());
+
+	// New Train data to variables
+	var trainName = childSnapshot.val().name;
+	var trainDest = childSnapshot.val().destination;
+	var trainTime1 = childSnapshot.val().firstTrain;
+	var trainFreq = childSnapshot.val().frequency;
+
+	console.log(trainName);
+	console.log(trainDest);
+	console.log(trainTime1);
+	console.log(trainFreq);
+
+	// Calculate next train arrival Time
+	var nextArr = ;
+
+	// Calculate how far away train is
+	var minsAway = ;
+
+	$("#scheduleTable > tbody").append("<tr><td>" + trainName + "</td><td>" + trainDest + "</td><td>" + trainFreq + "</td><td>" + nextArr + "</td><td>" + minsAway + "</td></tr>")
+
+});
