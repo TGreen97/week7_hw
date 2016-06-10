@@ -7,7 +7,7 @@ $("#addTrain").on("click", function(){
 	// User input info
 	var trainName = $("#trainNameInput").val().trim();
 	var trainDest = $("#destinationInput").val().trim();
-	var trainTime1 = moment($("#firstTrainInput").val().trim(), "HH:mm").format("X");
+	var trainTime1 = moment($("#firstTrainInput").val().trim()).format("HH:mm");
 	var trainFreq = $("#frequencyInput").val().trim();
 
 	// Placeholder object for train data entry
@@ -18,7 +18,7 @@ $("#addTrain").on("click", function(){
 		frequency: trainFreq
 	}
 
-	// Uploads employee data to the database
+	// Uploads User added train info to the database
 	trainSched.push(newTrain);
 
 	// Console log new train object data
@@ -30,10 +30,10 @@ $("#addTrain").on("click", function(){
 	alert("New Train added to the Schedule!");
 
 	// Clear input text-boxes
-	$("#employeeNameInput").val("");
-	$("#roleInput").val("");
-	$("#startInput").val("");
-	$("#rateInput").val("");
+	$("#trainNameInput").val("");
+	$("#destinationInput").val("");
+	$("#firstTrainInput").val("");
+	$("#frequencyInput").val("");
 
 	// Prevents user moving to new page
 	return false;
@@ -54,11 +54,31 @@ trainSched.on("child_added", function(childSnapshot, prevChildKey){
 	console.log(trainTime1);
 	console.log(trainFreq);
 
-	// Calculate next train arrival Time
-	var nextArr = ;
+	// Get Current time
+	var currentTime = moment();
+	console.log("Current Time: " + moment(currentTime).format("HH:mm"));
 
-	// Calculate how far away train is
-	var minsAway = ;
+	// Convert First Train Time to make sure it comes before Current Time
+	var trainTime1Converted = moment(trainTime1).subtract(1, "years");
+	console.log(trainTime1Converted);
+
+	// Get difference between current time and First Train time
+	var diffTime = moment().diff(moment(trainTime1), "minutes");
+	console.log("Diff in Time: " + diffTime);
+
+	// Calculate time apart remainder
+	var tRemainder = diffTime % trainFreq;
+	console.log(tRemainder);
+
+	// Calculate how far away next train is
+	var minsAway = trainFreq - tRemainder;
+	console.log("Minutes til Train: " + minsAway);
+	
+	// Calculate next train arrival Time
+	var nextArr = moment().add(minsAway, "minutes");
+	console.log("Next Arrival: " + moment(nextArr).format("HH:mm"));
+
+	
 
 	$("#scheduleTable > tbody").append("<tr><td>" + trainName + "</td><td>" + trainDest + "</td><td>" + trainFreq + "</td><td>" + nextArr + "</td><td>" + minsAway + "</td></tr>")
 
