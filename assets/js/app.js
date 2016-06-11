@@ -7,7 +7,7 @@ $("#addTrain").on("click", function(){
 	// User input info
 	var trainName = $("#trainNameInput").val().trim();
 	var trainDest = $("#destinationInput").val().trim();
-	var trainTime1 = moment($("#firstTrainInput").val().trim()).format("HH:mm");
+	var trainTime1 = moment($("#firstTrainInput").val().trim(), "HH:mm").format("");
 	var trainFreq = $("#frequencyInput").val().trim();
 
 	// Placeholder object for train data entry
@@ -54,16 +54,16 @@ trainSched.on("child_added", function(childSnapshot, prevChildKey){
 	console.log(trainTime1);
 	console.log(trainFreq);
 
+	// Convert First Train Time to make sure it comes before Current Time
+	var trainTime1Converted = moment(trainTime1, "HH:mm").subtract("years", 1);
+	console.log(trainTime1Converted);
+
 	// Get Current time
 	var currentTime = moment();
 	console.log("Current Time: " + moment(currentTime).format("HH:mm"));
 
-	// Convert First Train Time to make sure it comes before Current Time
-	var trainTime1Converted = moment(trainTime1).subtract(1, "years");
-	console.log(trainTime1Converted);
-
 	// Get difference between current time and First Train time
-	var diffTime = moment().diff(moment(trainTime1), "minutes");
+	var diffTime = moment().diff(moment(trainTime1Converted), "minutes");
 	console.log("Diff in Time: " + diffTime);
 
 	// Calculate time apart remainder
@@ -76,10 +76,11 @@ trainSched.on("child_added", function(childSnapshot, prevChildKey){
 	
 	// Calculate next train arrival Time
 	var nextArr = moment().add(minsAway, "minutes");
+	var nextArrConverted = moment(nextArr).format("hh:mm a")
 	console.log("Next Arrival: " + moment(nextArr).format("HH:mm"));
 
 	
 
-	$("#scheduleTable > tbody").append("<tr><td>" + trainName + "</td><td>" + trainDest + "</td><td>" + trainFreq + "</td><td>" + nextArr + "</td><td>" + minsAway + "</td></tr>")
+	$("#scheduleTable > tbody").append("<tr><td>" + trainName + "</td><td>" + trainDest + "</td><td>" + trainFreq + "</td><td>" + nextArrConverted + "</td><td>" + minsAway + "</td></tr>")
 
 });
